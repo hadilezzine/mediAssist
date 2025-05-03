@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard - MediAssist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #7C3AED;
+      --primary-light: #8B5CF6;
+      --primary-soft: #C4B5FD;
+      --primary-extra-light: #EDE9FE;
+      --white: #FFFFFF;
+      --light-bg: #F8FAFC;
+      --dark-text: #1E293B;
+      --gray-text: #64748B;
+      --border: #E2E8F0;
+      --card-bg: rgba(255, 255, 255, 0.97);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      background-color: var(--primary-extra-light);
+    }
+
+    .background-frame {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      border: none;
+      z-index: 0;
+      filter: blur(14px) brightness(1.2);
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    header {
+      background: var(--header-bg);
+      color: var(--white);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 3;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .logo-icon {
+      font-size: 1.5rem;
+    }
+
+    .header-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--white);
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 1.5rem auto;
+      padding: 1.5rem;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(124, 58, 237, 0.2);
+      border: 1px solid rgba(124, 58, 237, 0.2);
+    }
+
+    .welcome-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .welcome-section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark-text);
+      font-weight: 600;
+    }
+
+    .welcome-section p {
+      color: var(--gray-text);
+      font-size: 1rem;
+    }
+
+    .dashboard-rows {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .card-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+
+    .dashboard-card {
+      flex: 1;
+      min-width: 0;
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(139, 92, 246, 0.2));
+      border-radius: 12px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 5px 20px rgba(124, 58, 237, 0.15);
+      border: 2px solid rgba(124, 58, 237, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 160px;
+      max-width: 360px;
+      backdrop-filter: blur(4px);
+    }
+
+    .dashboard-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 28px rgba(124, 58, 237, 0.25);
+      border-color: var(--primary-soft);
+      background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(139, 92, 246, 0.25));
+    }
+
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-size: 1.4rem;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.15);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--dark-text);
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--gray-text);
+      line-height: 1.5;
+    }
+
+    .logout-container {
+      margin-top: 2.5rem;
+      text-align: center;
+    }
+
+    .logout-btn {
+      background: linear-gradient(135deg, #EF4444, #DC2626);
+      color: var(--white);
+      padding: 0.7rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 5px 15px rgba(239, 68, 68, 0.2);
+      border: none;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .logout-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 22px rgba(239, 68, 68, 0.3);
+    }
+
+    @media (max-width: 900px) {
+      .card-row {
+        flex-wrap: wrap;
+      }
+      
+      .dashboard-card {
+        min-width: 250px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      main {
+        padding: 1.25rem;
+        margin: 1rem;
+      }
+      
+      .card-row {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      
+      .dashboard-card {
+        width: 100%;
+        max-width: 100%;
+        min-height: 140px;
+      }
+      
+      header {
+        padding: 0.7rem 1.25rem;
+      }
+      
+      .header-title {
+        font-size: 1.1rem;
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    main {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Arrière-plan flou avec index.html -->
+  <iframe src="index.html" class="background-frame"></iframe>
+
+  <header>
+    <div class="header-content">
+      <div class="logo-icon">
+        <i class="fas fa-heartbeat"></i>
+      </div>
+      <div class="header-title">MediAssist</div>
+    </div>
+    
+  </header>
+
+  <main>
+    <div class="welcome-section">
+      <h2>Bonjour</h2>
+      <p>Que souhaitez-vous faire aujourd'hui ?</p>
+    </div>
+
+    <div class="dashboard-rows">
+      <div class="card-row">
+        <a href="medicament.php" class="dashboard-card">
+          <div class="card-icon"><i class="fas fa-pills"></i></div>
+          <div class="card-title">Médicaments</div>
+          <div class="card-desc">Gérez vos traitements</div>
+        </a>
+        
+        <a href="rendezvous.php" class="dashboard-card">
+          <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+          <div class="card-title">Rendez-vous</div>
+          <div class="card-desc">Planifiez vos consultations</div>
+        </a>
+      </div>
+      
+      <div class="card-row">
+        <a href="ordonnances.php" class="dashboard-card">
+          <div class="card-icon"><i class="fas fa-file-prescription"></i></div>
+          <div class="card-title">Ordonnances</div>
+          <div class="card-desc">Consultez vos prescriptions</div>
+        </a>
+        
+        <a href="contacts.php" class="dashboard-card">
+          <div class="card-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="card-title">Contacts</div>
+          <div class="card-desc">Vos contacts d'urgence</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="logout-container">
+      <button class="logout-btn" onclick="window.location.href='logout.php'">
+        <i class="fas fa-sign-out-alt"></i> Se déconnecter
+      </button>
+    </div>
+  </main>
+
+</body>
+</html>
